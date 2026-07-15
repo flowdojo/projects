@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>H2H Copy — Referrals</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --primary:#3B82F6;
+    --hover:#2563EB;
+    --focus:#93C5FD;
+    --ink:#101010;
+    --muted:#606060;
+    --surface:#F4F8FC;
+    --border:#EDEDED;
+    --white:#FFFFFF;
+    --sans:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,sans-serif;
+    --mono:'Geist Mono',ui-monospace,SFMono-Regular,Menlo,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{background:var(--white);color:var(--ink);font-family:var(--sans);-webkit-font-smoothing:antialiased}
+  /* clip (not hidden): hides horizontal overflow WITHOUT turning <body> into a
+     scroll container, which would otherwise fight Lenis and kill wheel scroll */
+  html,body{overflow-x:clip}
+  a{text-decoration:none;color:inherit}
+
+  /* ============ NAVBAR ============ */
+  .nav{
+    position:fixed;top:0;left:0;right:0;z-index:50;
+    display:flex;align-items:center;justify-content:space-between;
+    padding:16px 64px;
+  }
+  .logo{display:flex;align-items:center;gap:8px;font-weight:600;font-size:20px;letter-spacing:-.5px}
+  .logo .mark{width:26px;height:26px;display:block}
+  .logo b{font-weight:600}
+  .logo span{font-weight:400}
+
+  .pill{display:flex;align-items:center;padding:4px;background:var(--surface);border-radius:8px}
+  .pill a{
+    font-family:var(--mono);font-size:14px;color:var(--muted);
+    padding:8px 16px;border-radius:4px;line-height:150%;white-space:nowrap;
+    transition:color .2s;
+  }
+  .pill a.active{
+    background:var(--white);color:var(--ink);
+    box-shadow:0 4px 20px rgba(155,155,155,.2);
+    text-shadow:0 1px 2px rgba(0,0,0,.12);
+  }
+  .nav-right{display:flex;align-items:center;gap:0;padding:4px;background:var(--surface);border-radius:8px}
+  .nav-right a.career{font-family:var(--mono);font-size:14px;color:var(--muted);padding:6px 16px}
+  .book{
+    display:flex;align-items:center;gap:12px;
+    padding:4px 4px 4px 16px;background:var(--white);
+    box-shadow:0 4px 20px rgba(155,155,155,.2);border-radius:4px;
+  }
+  .book span{font-family:var(--mono);font-size:14px;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.12)}
+  .book .ic{
+    width:30px;height:30px;display:grid;place-items:center;
+    background:var(--white);border:1px solid var(--border);
+    box-shadow:inset 0 -1px 0 1px rgba(215,215,215,.25);border-radius:2px;font-size:15px;
+  }
+
+  /* ============ HERO ============ */
+  .hero{
+    position:relative;min-height:100vh;overflow:hidden;
+    display:flex;flex-direction:column;align-items:center;
+    padding-top:190px;background:var(--white);
+  }
+  /* decorative guide lines + chips at page edges */
+  .guide{position:absolute;top:0;bottom:0;width:14px;opacity:.5;z-index:1}
+  .guide.left{left:168px}
+  .guide.right{right:168px}
+  .guide .v{position:absolute;left:7px;top:0;bottom:0;width:0;border-left:1px solid var(--focus)}
+  .guide .chip{position:absolute;width:14px;height:14px;border-radius:50%;left:0}
+  .guide.left  .chip{bottom:15%;background:var(--white);border:1px solid var(--focus)}
+  .guide.right .chip{top:12%;background:var(--primary)}
+
+  /* dashed circle behind heading */
+  .ring{
+    position:absolute;top:60px;left:50%;transform:translateX(-50%);
+    width:680px;height:680px;border-radius:50%;
+    border:1px dashed var(--focus);opacity:.5;z-index:1;
+  }
+
+  .hero-inner{position:relative;z-index:3;display:flex;flex-direction:column;align-items:center;gap:40px;width:1090px;max-width:92vw}
+  .hero h1{
+    font-weight:600;font-size:clamp(2.2rem,4.4vw,52px);line-height:115%;
+    letter-spacing:-2px;text-align:center;text-transform:capitalize;
+    color:var(--ink);max-width:16ch;
+  }
+  .hero h1 .accent{color:var(--primary)}
+  .hero .sub{
+    font-family:var(--mono);font-weight:400;font-size:16px;line-height:150%;
+    text-align:center;color:var(--muted);max-width:66ch;
+  }
+  .cta{display:flex;align-items:center;gap:16px}
+  .btn-primary{
+    display:flex;align-items:center;gap:12px;
+    padding:8px 8px 8px 24px;background:var(--primary);
+    border:1px solid var(--hover);box-shadow:inset 0 -1px 0 1px rgba(255,255,255,.2);
+    border-radius:4px;
+  }
+  .btn-primary span{font-family:var(--mono);font-size:14px;color:var(--white);text-shadow:0 1px 2px rgba(0,0,0,.25)}
+  .btn-primary .ar{width:30px;height:30px;display:grid;place-items:center;background:var(--white);border-radius:2px;color:var(--primary);font-size:16px}
+  .guarantee{
+    display:flex;align-items:center;gap:8px;padding:8px 16px;background:var(--white);border-radius:4px;
+    font-family:var(--mono);font-size:14px;color:var(--ink);text-shadow:0 1px 2px rgba(0,0,0,.12);
+  }
+
+  /* subject cutout */
+  .figure{
+    position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+    width:526px;max-width:64vw;height:auto;z-index:2;
+    pointer-events:none;user-select:none;
+  }
+
+  /* bottom glow */
+  .glow{position:absolute;left:50%;bottom:-140px;transform:translateX(-50%);width:1560px;height:600px;opacity:.2;z-index:0;pointer-events:none}
+  .glow::before,.glow::after{content:"";position:absolute;inset:0;border-radius:50%;filter:blur(75px)}
+  .glow::before{background:var(--primary);opacity:.64}
+  .glow::after{background:var(--focus);opacity:.64;transform:scale(.85) translateY(24px)}
+
+  /* ============ STICKY STORY ============ */
+  .story{height:600vh;position:relative}
+  .sticky{
+    position:sticky;top:0;height:100vh;width:100%;overflow:hidden;
+    background:radial-gradient(120% 100% at 25% 30%, #ffffff 0%, #f7faff 55%, var(--surface) 100%);
+    display:flex;align-items:center;
+  }
+  .stage{position:absolute;inset:0}
+  svg.flow{position:absolute;inset:0;width:100%;height:100%}
+  .flow path{fill:none;stroke:url(#lineGrad);stroke-width:1.6;stroke-linecap:round}
+  .flow .dot{fill:var(--primary)}
+  .flow .halo{fill:var(--focus);opacity:.28}
+
+  .copy{position:absolute;right:8vw;top:50%;transform:translateY(-50%);width:min(44vw,600px);text-align:right}
+  .copy .phrase{
+    position:absolute;right:0;top:50%;width:100%;
+    font-family:var(--sans);font-weight:600;font-size:clamp(1.5rem,2.8vw,2.6rem);
+    line-height:1.15;letter-spacing:-1px;color:var(--ink);
+    opacity:0;transform:translateY(28px);will-change:opacity,transform;
+  }
+  .copy .phrase .accent{color:var(--primary)}
+  .copy .phrase em{font-style:normal;color:var(--focus)}
+
+  /* ============ OUTRO ============ */
+  .outro{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:0 8vw;
+    background:linear-gradient(180deg,var(--surface),var(--white))}
+  .outro h2{font-weight:600;font-size:clamp(2rem,4.4vw,52px);letter-spacing:-2px;text-transform:capitalize}
+  .outro p{margin-top:16px;font-family:var(--mono);font-size:16px;color:var(--muted)}
+  .outro .btn-primary{margin:32px auto 0;display:inline-flex}
+</style>
+</head>
+<body>
+
+  <!-- ============ NAV ============ -->
+  <nav class="nav">
+    <div class="logo">
+      <svg class="mark" viewBox="0 0 32 32"><path d="M16 2 4 9v14l12 7 12-7V9L16 2Z" fill="#3B82F6"/><path d="M16 8 10 11.5v7L16 22l6-3.5v-7L16 8Z" fill="#fff"/></svg>
+      <b>H2H</b><span>COPY</span>
+    </div>
+    <div class="pill">
+      <a href="#" class="active">Results</a>
+      <a href="#">Case Studies</a>
+      <a href="#">How it Works</a>
+      <a href="#">Testimonial</a>
+    </div>
+    <div class="nav-right">
+      <a href="#" class="career">Career</a>
+      <a href="#" class="book"><span>Book a Call</span><span class="ic">📅</span></a>
+    </div>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header class="hero">
+    <div class="glow"></div>
+    <div class="ring"></div>
+    <div class="guide left"><div class="v"></div><div class="chip"></div></div>
+    <div class="guide right"><div class="v"></div><div class="chip"></div></div>
+
+    <img class="figure" src="h2h-hero.png" alt="" />
+
+    <div class="hero-inner">
+      <h1>Stop Losing Revenue And Opportunities. Kill <span class="accent">Boring Content.</span></h1>
+      <p class="sub">Turn your founder into your agency's most valuable growth asset with a LinkedIn system that drives authority, qualified leads, and predictable revenue.</p>
+      <div class="cta">
+        <a href="#" class="btn-primary"><span>Book a Strategy Call</span><span class="ar">↗</span></a>
+        <div class="guarantee">✓ $30K in 90 Days Guarantee</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ STICKY STORY ============ -->
+  <section class="story" id="story">
+    <div class="sticky">
+      <div class="stage">
+        <svg class="flow" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" id="flowSvg">
+          <defs>
+            <linearGradient id="lineGrad" gradientUnits="userSpaceOnUse" x1="-80" y1="0" x2="660" y2="0">
+              <stop offset="0"   stop-color="#93C5FD" stop-opacity="0"/>
+              <stop offset="0.35" stop-color="#DCEBFF" stop-opacity="0.7"/>
+              <stop offset="1"   stop-color="#93C5FD" stop-opacity="0.95"/>
+            </linearGradient>
+          </defs>
+          <g id="lines"></g>
+          <g id="dots"></g>
+        </svg>
+      </div>
+
+      <div class="copy" id="copy">
+        <div class="phrase">Referrals are amazing.</div>
+        <div class="phrase">But they're the most <em>expensive</em> lead source you have.</div>
+        <div class="phrase">No systems. <em>No predictability.</em></div>
+        <div class="phrase">Just hope <em>and timing.</em></div>
+        <div class="phrase">We fix <span class="accent">that.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ OUTRO ============ -->
+  <section class="outro">
+    <div>
+      <h2>Turn Accidents Into A System.</h2>
+      <p>Predictable pipeline, engineered.</p>
+      <a href="#" class="btn-primary"><span>Book a Strategy Call</span><span class="ar">↗</span></a>
+    </div>
+  </section>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/MotionPathPlugin.min.js"></script>
+<script src="https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+<script>
+gsap.registerPlugin(ScrollTrigger, MotionPathPlugin);
+
+/* ---------- Lenis smooth scroll ---------- */
+const lenis = new Lenis({ lerp:0.08, wheelMultiplier:1, smoothWheel:true });
+lenis.on('scroll', ScrollTrigger.update);
+gsap.ticker.add((t)=> lenis.raf(t*1000));
+gsap.ticker.lagSmoothing(0);
+
+/* ---------- Flow lines ----------
+   All lines stream forward together, weaving/crossing each other. Past a
+   certain point they STOP one by one (frozen mid-flight) and slowly fade to
+   ~10%. Only the survivor keeps travelling and reaches near the text. */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const SEG   = 5;                       // 5 phrases
+const FADE_SPAN = 0.20;                // scroll distance over which a stopped line fades
+const FADE_MIN  = 0.06;                // stopped lines settle at ~6% opacity
+
+const linesG = document.getElementById('lines');
+const dotsG  = document.getElementById('dots');
+const paths = [], dots = [];
+
+function addDot(survivor){
+  const halo = document.createElementNS(SVGNS,'circle');
+  halo.setAttribute('r', survivor?10:8); halo.setAttribute('class','halo');
+  const core = document.createElementNS(SVGNS,'circle');
+  core.setAttribute('r', survivor?4.5:3.5);  core.setAttribute('class','dot');
+  const g = document.createElementNS(SVGNS,'g');
+  g.appendChild(halo); g.appendChild(core);
+  dotsG.appendChild(g);
+  dots.push(g);
+}
+
+/* stop = scroll progress at which this line freezes & begins to fade.
+   Lines cross because their start/end Y are on opposite sides of centre. */
+const lineDefs = [
+  //  y0   c1y  c2y   y1   endX  stop
+  { y0:120, c1y: 40, c2y:520, y1:470, endX:640, stop:0.46 },
+  { y0:560, c1y:640, c2y:180, y1:240, endX:648, stop:0.55 },
+  { y0:220, c1y:120, c2y:500, y1:430, endX:636, stop:0.64 },
+  { y0:480, c1y:560, c2y:220, y1:300, endX:652, stop:0.73 },
+  { y0:350, c1y:430, c2y:150, y1:190, endX:644, stop:0.82 },
+  // survivor — never stops, reaches far right near the text
+  { y0:330, c1y:300, c2y:390, y1:352, endX:772, stop:1.01, survivor:true },
+];
+
+lineDefs.forEach(d=>{
+  const dStr = `M -90 ${d.y0} C 240 ${d.c1y}, 500 ${d.c2y}, ${d.endX} ${d.y1}`;
+  const p = document.createElementNS(SVGNS,'path');
+  p.setAttribute('d', dStr);
+  linesG.appendChild(p);
+  const len = p.getTotalLength();
+  p.style.strokeDasharray = len; p.style.strokeDashoffset = len;
+  paths.push({el:p, len, stop:d.stop, survivor:!!d.survivor});
+  addDot(d.survivor);
+});
+
+/* ---------- Master scrubbed timeline ---------- */
+const phrases = gsap.utils.toArray('#copy .phrase');
+
+gsap.timeline({
+  scrollTrigger:{
+    trigger:'#story', start:'top top', end:'bottom bottom', scrub:1,
+    onUpdate:(self)=>{
+      const prog = self.progress;
+
+      paths.forEach((o,i)=>{
+        // travel forward together until this line's stop point, then freeze
+        const frac = Math.min(prog, o.stop);
+        o.el.style.strokeDashoffset = o.len * (1 - frac);
+        const tip = o.el.getPointAtLength(o.len * Math.min(frac, 0.999));
+
+        // after the stop point, slowly fade the frozen line toward ~10%
+        let op = 1;
+        if(!o.survivor && prog > o.stop){
+          const t = Math.min((prog - o.stop) / FADE_SPAN, 1);
+          op = 1 - (1 - FADE_MIN) * t;
+        }
+        o.el.style.opacity = op;
+        dots[i].setAttribute('transform', `translate(${tip.x} ${tip.y})`);
+        // dot fades fully as the line settles, leaving just the faint frozen line
+        dots[i].style.opacity = o.survivor ? 1 : Math.max(0, (op - FADE_MIN) / (1 - FADE_MIN));
+      });
+
+      // whole flow drifts right -> "moving forward" illusion
+      gsap.set('#lines, #dots', { x: prog*70 });
+
+      /* ---- text: strictly one phrase visible per segment, no overlap ---- */
+      phrases.forEach((el,i)=>{
+        const local = (prog - i/SEG) * SEG;   // 0..1 within this phrase's segment
+        const last  = i === SEG-1;
+        let op=0, y=28, bl=6;
+        if(local >= 0 && (local <= 1 || last)){
+          if(local < 0.30){                    // fade in
+            const t = local/0.30; op=t; y=28-28*t; bl=6-6*t;
+          } else if(local < 0.70 || last){     // hold (last phrase never leaves)
+            op=1; y=0; bl=0;
+          } else {                             // fade out
+            const t=(local-0.70)/0.30; op=1-t; y=-30*t; bl=6*t;
+          }
+        }
+        el.style.opacity = Math.max(0,Math.min(1,op));
+        el.style.transform = `translateY(${y}px)`;
+        el.style.filter = `blur(${bl}px)`;
+      });
+    }
+  }
+});
+
+window.addEventListener('resize', ()=>{
+  paths.forEach(o=>{ o.len=o.el.getTotalLength(); o.el.style.strokeDasharray=o.len; });
+  ScrollTrigger.refresh();
+});
+</script>
+</body>
+</html>
